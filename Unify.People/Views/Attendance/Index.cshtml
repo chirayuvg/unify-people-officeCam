@@ -1,0 +1,99 @@
+﻿@using AppStudio.Framework.Core;
+@using AppStudio.Model;
+@inject AppModel appModel
+
+@{
+    if (!this.Context.Request.IsAjax())
+    {
+        Layout = appModel.DefaultMenu.GetLayoutUrl();
+    }
+}
+
+<style>
+    body {
+        cursor: pointer;
+        font-family: sans-serif;
+        height: 200%;
+        margin: 0;
+    }
+
+    .introSec {
+        height: 100vh;
+        text-align: center;
+    }
+
+    .title {
+        text-align: center;
+        color: grey;
+        font-family: sans-serif;
+        font-size: 30px;
+        margin-bottom: 40px;
+    }
+
+    .logos {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        gap: 50px;
+    }
+
+    .logos img {
+        height: 100px;
+        object-fit: contain;
+    }
+
+    .divider {
+        background: #8080805e;
+        height: 150px;
+        display: inline-block;
+        width: 2px;
+    }
+
+    .tap {
+        margin-top: 40px;
+    }
+
+    @@media only screen and (max-width: 545px) {
+        .title {
+            font-size: 20px;
+        }
+
+        .logos img {
+            width: 100px;
+            height: auto;
+        }
+
+        .logos {
+            gap: 10px;
+        }
+
+        .divider {
+            height: 100px;
+        }
+    }
+</style>
+<script>
+    setInterval(function () {
+        window.location.reload();
+    }, 600000); // Refresh every 10 minutes
+</script>
+<main class="introSec" onclick="loadPage('attendance/capture')">
+    <div>
+        <h1 class="title">Employee Attendance Management System</h1>
+    </div>
+    <div class="logos">
+        <div>
+            <img src="./Images/dtc-infotech-pvt-ltd-bangalore-software-companies-hpuq1emxaf.png"
+                alt="dtc-infotech"
+                    style="height: 150px" />
+        </div>
+        <div><span class="divider"></span></div>
+        <div>
+        <img src="./images/cam-360.svg" alt="cam-360" />
+        </div>
+    </div>
+    <div class="tap">
+        <p>Tap anywhere</p>
+    </div>
+</main>

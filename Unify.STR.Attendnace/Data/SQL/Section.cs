@@ -1,0 +1,24 @@
+﻿using System.ComponentModel.DataAnnotations;
+using AppStudio.Framework.Core;
+
+namespace Unify.STR.Attendance.Data.SQL
+{
+    public class Section 
+    {
+        [Key]
+        [Required]
+        public Guid Id { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+
+        public string Name { get; set; }
+
+        public Guid? RangeId { get; set; }
+        public Range? Range { get; set; }
+
+        [AutoFill(DefaultValueType = DefaultValueType.TenantId)]
+        public Guid TenantId { get; set; }
+
+    }
+}

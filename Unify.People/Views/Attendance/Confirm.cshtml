@@ -1,0 +1,37 @@
+﻿@using AppStudio.Framework.Core;
+@using AppStudio.Model;
+@using Unify.People.Controllers.Attendance
+@inject AppModel appModel
+
+@{
+    if (!this.Context.Request.IsAjax())
+    {
+        Layout = appModel.DefaultMenu.GetLayoutUrl();
+    }
+}
+
+@if(Model.EmployeeName!=string.Empty)
+{
+    <h3>@Model.Action Successful</h3>
+    <div class="employeeDetails">
+        <div class="employeeInfo">
+            <p><b>Emp Code:</b> @Model.EmployeeCode</p>
+            <p><b>Name:</b> @Model.EmployeeName</p>
+            <p style="margin-bottom:10px"><b>Designation:</b> @Model.Designation</p>
+        </div>
+    </div>
+    <div class="employeeTimings">
+        <p><b>Date:</b> <span id="currentDate">@DateTime.UtcNow.AddHours(5).AddMinutes(30).ToShortDateString()</span></p>
+        <p><b>Time:</b> <span id="currentTime">@DateTime.UtcNow.AddHours(5).AddMinutes(30).ToShortTimeString()</span></p>
+    </div>
+}
+else
+{
+    <h3 style="color:red">Employee not found!</h3>
+    <div style="margin-bottom:30px;">Please contact the administrator to update employee information.</div>
+}
+
+<div class="captureAgain">
+    <button onclick="hideInfo()">Ok</button>
+</div>
+          

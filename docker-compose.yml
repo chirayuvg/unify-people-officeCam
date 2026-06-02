@@ -1,0 +1,6 @@
+services:
+  unify.people:
+    image: ${DOCKER_REGISTRY-}unifypeople20250917
+    build:
+      context: .
+      dockerfile: Unify.People/Dockerfile

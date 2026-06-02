@@ -1,0 +1,59 @@
+# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+# This stage is used when running from VS in fast mode (Default for Debug configuration)
+
+# Set full permissions and umask
+
+
+
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+USER $APP_UID
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+
+# Start as root
+USER root
+
+# Install stuff
+RUN apt-get update && apt-get install -y --no-install-recommends passwd && rm -rf /var/lib/apt/lists/*
+
+# After install, THEN create non-root user
+RUN useradd -m appuser && chown -R appuser:appuser /app
+
+# Now switch to non-root
+USER appuser
+
+
+
+# You may revert to this later if desired: USER appuser
+# This stage is used to build the service project
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["NuGet.Config", "."]
+COPY ["UnifyNow.Forest/UnifyNow.Forest.csproj", "UnifyNow.Forest/"]
+RUN dotnet restore "./UnifyNow.Forest/UnifyNow.Forest.csproj"
+COPY . .
+WORKDIR "/src/UnifyNow.Forest"
+RUN dotnet build "./UnifyNow.Forest.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# This stage is used to publish the service project to be copied to the final stage
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./UnifyNow.Forest.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+
+User root
+
+RUN chmod -R 777 /app
+ 
+# Optionally drop privileges again
+# USER appuser
+
+ENTRYPOINT ["dotnet", "UnifyNow.Forest.dll"]

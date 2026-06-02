@@ -1,0 +1,145 @@
+﻿@model Unify.Common.Models.LoginViewModel
+
+@{
+    Layout = "_LayoutMain";
+}
+
+
+
+<div class="col-md-6">
+    <div class="registration-form">
+        <div class="unify-logo">
+            <img src="/images/unifynow-logo.png"
+                 alt="unifynow-logo"
+                 class="img-fluid" />
+        </div>
+
+        <div id="signin">
+            <div>
+                <form method="post" class="d-flex gap-3 flex-column login-form">
+                    <input asp-for="ReturnUrl" type="hidden"/>
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    <div class="form-group">
+                        <label for="Email" class="form-label">Email</label>
+                        <input asp-for="Email" class="form-control" aria-required="true" placeholder="Enter email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="Password" class="form-label">Password</label>
+                        <input asp-for="Password" type="password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <a id="forgot-password" class="forgot-password" >Forgot Password?</a>
+                    </div>
+                    <div class="login-btn">
+
+                        <button id="login-submit" type="submit" class="btn btn-primary">
+                            Sign In
+                        </button>
+                    </div>
+
+
+                </form>
+
+                @*
+                <form action="" class="d-flex gap-3 flex-column login-form">
+                <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email"
+                class="form-control"
+                id="email"
+                placeholder="Enter email"
+                name="email" />
+                </div>
+                <div class="form-group">
+                <label for="pwd" class="form-label">Password</label>
+                <input type="password"
+                class="form-control"
+                id="pwd"
+                placeholder="Enter password"
+                name="pswd" />
+                <a href="./forgotPassword.html" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <div class="login-btn">
+                <button type="submit" class="btn btn-primary">Sign In</button>
+                </div>
+                </form> *@
+
+                <div class="position-relative py-3">
+                    <div class="position-absolute d-flex align-items-center"
+                         style="inset: 0px; justify-content: center">
+                        <div class="or-border"></div>
+                    </div>
+                    <div class="position-relative d-flex justify-content-center or-text">
+                        <span class="px-3">Or </span>
+                    </div>
+                </div>
+                <form id="external-account"
+                      method="post"
+                      class="form-horizontal"
+                      action="/Identity/Account/ExternalLogin?returnUrl=%2F">
+                    <div class="d-flex align-items-center gap-3 social-links">
+                        <button type="submit"
+                                name="provider"
+                                value="Google"
+                                title="Log in using your Google account">
+                            <img src="/images/google.png"
+                                 alt="google"
+                                 style="width: 25px; height: 25px" />
+                        </button>
+                        <!-- <button
+                          type="submit"
+                          name="provider"
+                          value="Facebook"
+                          title="Log in using your Facebook account"
+
+                        >
+                          <img
+                            src="/images/facebook.png"
+                            alt="facebook"
+                            style="width: 30px; height: 30px"
+                          />
+                        </button> -->
+
+                        <button type="submit"
+                                name="provider"
+                                value="Apple"
+                                title="Log in using your Apple account">
+                            <img src="/images/apple.png"
+                                 alt="Apple"
+                                 style="width: 25px; height: 25px" />
+                        </button>
+                        <button type="submit"
+                                name="provider"
+                                value="Microsoft"
+                                title="Log in using your Microsoft account">
+                            <img src="/images/microsoft-logo.png"
+                                 alt="microsoft"
+                                 style="width: 25px; height: 25px" />
+                        </button>
+                    </div>
+                    @*  <input name="__RequestVerificationToken"
+                    type="hidden"
+                    value="CfDJ8EUy7qFKZAtGlFIhm98EWuZ_BuCPyjq9860nTV4P0TwKZSXErGyzpOsO2thCMiFkO4CF1CBymOnoYVdYNVYj65iNXA1DwnCsTzGWXIgavptjAGI3tzs8M_uAFcgnWGhJw9lLE8J6VNFm61JhkqaFZSc" />
+                    *@
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="login-right">
+        <div>
+            <p>Your Gateway to AI-Powered Workplace Solutions</p>
+            <img src="/images/companyLogos.png"
+                 alt="productlogos"
+                 class="img-fluid" />
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

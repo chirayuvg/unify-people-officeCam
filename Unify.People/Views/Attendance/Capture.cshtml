@@ -1,0 +1,435 @@
+﻿@using AppStudio.Framework.Core;
+@using AppStudio.Model;
+@using Unify.People.Controllers.Attendance
+@inject AppModel appModel
+
+@{
+    if (!this.Context.Request.IsAjax())
+    {
+        Layout = appModel.DefaultMenu.GetLayoutUrl();
+    }
+}
+
+<style>
+    body {
+        margin: 0;
+        font-family: sans-serif;
+    }
+
+    header .content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+    }
+
+    .title {
+        text-align: center;
+        color: black;
+        font-size: 20px;
+        margin: 0 0 0 20px;
+    }
+
+    .logos {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logos img {
+        height: 37px;
+        object-fit: contain;
+    }
+
+    .divider {
+        background: #8080805e;
+        height: 50px;
+        display: inline-block;
+        width: 2px;
+    }
+
+    #video,
+    #capturedImage {
+        height: calc(100vh - 100px);
+        width: 100%;
+        object-fit: cover;
+        border: 1px solid red;
+        border-radius: 8px;
+    }
+
+    #capturedImage {
+        display: none;
+    }
+
+    .videoFeed {
+        display: flex;
+        align-items: center;
+        margin: 20px;
+    }
+
+    .accessedFeilds, .rightContent {
+        flex: 0 0 50%;
+    }
+
+    .attendanceButton {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+        align-items: center;
+    }
+
+    .attendanceButton button {
+        background: #6a7efc;
+        padding: 10px 15px;
+        color: white;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        border: 1px solid #6a7efc;
+    }
+
+    .attendanceButton button:hover {
+        background: white;
+        color: #6a7efc;
+    }
+
+    .loginSuccesfull {
+        display: grid;
+        justify-content: center;
+        flex: 0 0 50%;
+    }
+
+    .loginSuccesfull h3 {
+        text-align: center;
+        color: #06ab06;
+    }
+
+    .loginSuccesfull p {
+        font-size: 15px;
+        color: rgb(62, 59, 59);
+    }
+
+    .employeeDetails {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .employeeDetails img {
+        height: 100px;
+        width: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 1px solid black;
+    }
+
+    .employeeTimings {
+        display: flex;
+        gap: 20px;
+        justify-content: left;
+        line-height: 0px;
+        margin-bottom: 10px;
+    }
+
+    .captureAgain {
+        text-align: center;
+    }
+
+    .captureAgain button {
+        background: #6a7efc;
+        padding: 10px 15px;
+        border: 4px;
+        color: white;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        border: 1px solid #6a7efc;
+    }
+
+    .captureAgain button:hover {
+        background: white;
+        color: #6a7efc;
+    }
+
+    .close span {
+        color: white;
+        background: #eb0f0f;
+        padding: 5px 6px;
+        border-radius: 50%;
+        font-size: 9px;
+        font-weight: bold;
+        cursor: pointer;
+        border: 1px solid #eb0f0f;
+    }
+
+    .close span:hover {
+        color: #eb0f0f;
+        background: white;
+    }
+
+    .mobileTitle {
+        display: none;
+    }
+
+    .actionBtn {
+        background-color: #6c8cff;
+        border: none;
+        color: white;
+        padding: 15px 20px;
+        width: 180px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 8px;
+        font-size: 16px;
+        font-family: sans-serif;
+        line-height: 1.3;
+        transition: background-color 0.3s;
+        user-select: none; /* disable text selection */
+        caret-color: transparent; /* hide blinking cursor */
+    }
+
+    .actionBtn:focus {
+        outline: none;
+    }
+
+    .actionBtn strong {
+        display: block;
+        font-size: 20px;
+    }
+
+    .actionBtn small {
+        display: block;
+        font-size: 16px;
+    }
+
+    .actionBtn:hover {
+        background-color: #5a75e0;
+    }
+
+    @@media screen and (max-width: 768px) {
+        .title {
+            display: none;
+        }
+
+        .mobileTitle {
+            display: block;
+            font-size: 18px;
+            line-height: 26px;
+            margin: 5px;
+        }
+
+        .videoFeed {
+            flex-direction: column;
+        }
+
+        .accessedFeilds,
+        .rightContent {
+            flex: 0 0 100%;
+            width: 100%;
+        }
+
+        #video,
+        #capturedImage {
+            height: auto;
+            width: 100%;
+            max-height: 400px;
+        }
+
+        .loginSuccesfull {
+            padding: 10px;
+        }
+
+        .employeeDetails {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .employeeTimings {
+            /* flex-direction: column; */
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .employeeTimings p {
+            margin: 5px;
+        }
+
+        .employeeDetails img {
+            display: none;
+        }
+    }
+</style>
+<script>
+    setInterval(function () {
+        window.location.reload();
+    }, 600000); // Refresh every 10 minutes
+</script>
+
+<main id="CaptureMain">
+    <div class="videoFeed">
+        <div class="accessedFeilds">
+            <video id="video" autoplay></video>
+            <img id="capturedImage" alt="Captured Frame" />
+        </div>
+
+        <div class="rightContent" id="rightContent">
+            <div class="attendanceButton" id="attendanceButton">
+                <button id="captureBtn" class="actionBtn" style="background-color:green" contenteditable="false">
+                    <strong>I am Coming In</strong><br />
+                    <small>(Check In)</small>
+                </button>
+
+                <button id="logoutBtn" class="actionBtn" style="background-color:red" contenteditable="false">
+                    <strong>I am Going Out</strong><br />
+                    <small>(Check Out)</small>
+                </button>
+            </div>
+            <div class="loginSuccesfull" id="loginSuccess"></div>
+        </div>
+    </div>
+</main>
+
+<script>
+        const video = document.getElementById("video");
+        const captureBtn = document.getElementById("captureBtn");
+        const capturedImage = document.getElementById("capturedImage");
+        const logoutBtn = document.getElementById("logoutBtn");
+        // const capturedSection = document.getElementById("capturedSection");
+        // const locationText = document.getElementById("location");
+
+        let currentLatitude, currentLongitude;
+        let locationWatcherID;
+
+        async function startCamera() {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+              video: true,
+            });
+            video.srcObject = stream;
+            window.localStream = stream;
+          } catch (error) {
+            alert("Camera access denied or not supported.");
+            console.error(error);
+          }
+        }
+
+        function trackLocation() {
+          if ("geolocation" in navigator) {
+            locationWatcherID = navigator.geolocation.watchPosition(
+              (position) => {
+                currentLatitude = position.coords.latitude;
+                currentLongitude = position.coords.longitude;
+
+              },
+              (error) => {
+                alert("Location access denied or unavailable.");
+                console.error(error);
+              },
+              {
+                enableHighAccuracy: true,
+                maximumAge: 1000,
+              }
+            );
+          } else {
+            alert("Geolocation is not supported by this browser.");
+          }
+        }
+
+        captureBtn.addEventListener("click", () => {
+
+             showLoadPanel();
+
+          const canvas = document.createElement("canvas");
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          const context = canvas.getContext("2d");
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+          const dataUrl = canvas.toDataURL("image/png");
+          capturedImage.src = dataUrl;
+
+
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+       canvas.toBlob(function (blob) {
+      const file = new File([blob], "capture.jpg", { type: "image/jpeg" });
+      const formData = new FormData();
+      formData.append("Image", file);
+       formData.append("Latitude", currentLatitude || "");
+       formData.append("Longitude", currentLongitude || "");
+       formData.append("Action", "CheckIn");
+       debugger;
+      $.ajax({
+        url: "/Attendance/Capture",
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            $("#attendanceButton").hide();
+          $("#loginSuccess").html(data);
+            hideLoadPanel();
+        },
+        error: function () {
+              hideLoadPanel();
+          alert("Upload failed.");
+        }
+      });
+    }, "image/jpeg");
+    });
+    logoutBtn.addEventListener("click", () => {
+
+             showLoadPanel();
+
+          const canvas = document.createElement("canvas");
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          const context = canvas.getContext("2d");
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+          const dataUrl = canvas.toDataURL("image/png");
+          capturedImage.src = dataUrl;
+
+
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+       canvas.toBlob(function (blob) {
+      const file = new File([blob], "capture.jpg", { type: "image/jpeg" });
+      const formData = new FormData();
+      formData.append("Image", file);
+       formData.append("Latitude", currentLatitude || "");
+       formData.append("Longitude", currentLongitude || "");
+       formData.append("Action", "CheckOut");
+       debugger;
+      $.ajax({
+        url: "/Attendance/Capture",
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            $("#attendanceButton").hide();
+          $("#loginSuccess").html(data);
+            hideLoadPanel();
+        },
+        error: function () {
+              hideLoadPanel();
+          alert("Upload failed.");
+        }
+      });
+    }, "image/jpeg");
+    });
+
+
+    function hideInfo() {
+         $("#attendanceButton").show();
+          $("#loginSuccess").html("");
+    }
+
+    startCamera();
+    trackLocation();
+</script>

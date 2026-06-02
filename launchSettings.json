@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "unify.ccc": "StartDebugging",
+        "unify.people": "StartDebugging",
+        "unifynow.forest": "StartDebugging",
+        "toll.web.ui": "StartDebugging",
+        "unify.str.attendance": "StartDebugging"
+      }
+    }
+  }
+}

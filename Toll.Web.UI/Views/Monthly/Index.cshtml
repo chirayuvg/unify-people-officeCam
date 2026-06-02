@@ -1,0 +1,19 @@
+﻿<div class="container text-center mt-5">
+
+    <div class="card shadow-lg" style="max-width: 400px; margin: 0 auto;">
+        <div class="card-body" style="text-align: center;">
+            <h5 class="card-title">Click Below to Download Monthly Report</h5>
+            <a href="@Url.Action("ExportToExcel", "Monthly")" class="btn btn-primary btn-lg btn-block btn-hover">Export to Excel</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- Adding Hover Effect in the CSS -->
+<style>
+    .btn-hover:hover {
+        background-color: #0056b3; /* Darker blue */
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+</style>
