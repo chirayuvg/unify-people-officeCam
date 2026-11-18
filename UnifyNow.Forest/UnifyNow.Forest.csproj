@@ -8,6 +8,8 @@
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
 		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+		<RazorCompileOnBuild>false</RazorCompileOnBuild>
+		<RazorCompileOnPublish>false</RazorCompileOnPublish>
 	</PropertyGroup>
 	<!-- Generated UI and external integrations await native migration. -->
 	<PropertyGroup>
@@ -15,5 +17,9 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<Compile Include="Program.cs" />
+		<Compile Include="Application\**\*.cs" />
+		<Compile Include="Contracts\**\*.cs" />
+		<Compile Include="Domain\**\*.cs" />
+		<RazorGenerate Remove="**\*.cshtml" />
 	</ItemGroup>
 </Project>

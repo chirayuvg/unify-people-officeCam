@@ -18,7 +18,15 @@
 	<!-- The generated camera UI is retained as migration reference only. -->
 	<PropertyGroup>
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+		<RazorCompileOnBuild>false</RazorCompileOnBuild>
+		<RazorCompileOnPublish>false</RazorCompileOnPublish>
 	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="Application\**\*.cs" />
+		<Compile Include="Contracts\**\*.cs" />
+		<Compile Include="Domain\**\*.cs" />
+		<RazorGenerate Remove="**\*.cshtml" />
+	</ItemGroup>
 
 
 </Project>

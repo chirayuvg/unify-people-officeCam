@@ -7,6 +7,8 @@
     <UserSecretsId>5868ffa6-7ef7-49c9-ab32-f9d8a4b8c398</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <RazorCompileOnPublish>false</RazorCompileOnPublish>
   </PropertyGroup>
 
   <!-- UI, reporting and persistence stay disabled until native migration. -->
@@ -15,6 +17,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="Application\**\*.cs" />
+    <Compile Include="Contracts\**\*.cs" />
+    <Compile Include="Domain\**\*.cs" />
+    <RazorGenerate Remove="**\*.cshtml" />
   </ItemGroup>
 
 </Project>

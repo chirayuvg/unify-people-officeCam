@@ -1,7 +1,3 @@
-var builder = DistributedApplication.CreateBuilder(args);
-
-
-builder.AddProject<Projects.Unify_People>("Web");
-
-
-builder.Build().Run();
+// Resource orchestration is intentionally deferred until the migrated services
+// have concrete SQL Server or external-integration requirements.
+Console.WriteLine("No application resources are configured yet.");

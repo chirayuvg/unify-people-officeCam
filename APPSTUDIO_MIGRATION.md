@@ -118,3 +118,42 @@ business services.
 - Keep the legacy source excluded from compilation until the equivalent native
   slice has tests and is ready to replace it. Do not reintroduce its framework
   packages as a shortcut.
+
+## Native migration baseline
+
+`Unify.People` now compiles only its native migration baseline. It has no
+mapped HTTP endpoints or Razor compilation. The active code contains:
+
+- request DTOs for organisation, attendance and visitor workflows;
+- framework-free domain models for employees, departments, attendance entries
+  and visitor appointments;
+- validation services for those commands, registered by constructor-based DI;
+- persistence repository contracts only—there is no EF Core, SQL Server,
+  connection string or provider dependency yet.
+
+The following legacy concerns remain deliberately paused: generated page/grid
+controllers and Razor files; DevExtreme data loading; Excel/PDF exports; face
+recognition; RabbitMQ message handling; Elasticsearch dashboards; and all
+database-backed implementations. They should each be reintroduced only behind
+an application contract once the relevant native slice is ready.
+
+## Remaining project baselines
+
+| Project | Native foundation retained | Deferred legacy concerns |
+| --- | --- | --- |
+| `Unify.CCC` | Camera registration and monitor-configuration contracts, model and validation | Camera persistence, AI feeds, alerts/tickets, controllers and generated UI |
+| `Unify.STR.Attendance` | Attendance-import contract, model and validation | Upload endpoints, Excel, geospatial checks, face recognition and persistence |
+| `UnifyNow.Forest` | Alert-rule contract, model and validation | Camera/AI integrations, RabbitMQ, Elasticsearch, messaging, controllers and UI |
+| `Unify.Common` | Environment-aware discovery service | Identity, account pages, EF Core, authentication providers and logging packages |
+| `Toll.Web.UI` | Vehicle-registration contract, model and validation | AppBuilder runtime, SQL/Identity, exports, grid UI, controllers and views |
+| `AppHost` | Package-free orchestration placeholder | Aspire, service discovery, containers and database provisioning |
+
+The legacy `docker-compose` project is intentionally not included in the
+solution. It requires Visual Studio Container Tools and Docker Desktop, while
+no migrated application currently declares a container, database or external
+runtime resource. The compose files remain available for a later deployment
+phase.
+
+All of these projects compile only their native baseline. As with People, the
+next step is to add tests and then introduce infrastructure through repository
+or gateway contracts—not to reactivate the legacy controller/view code.
