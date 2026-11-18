@@ -15,12 +15,10 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
-	<ItemGroup>
-
-		<PackageReference Include="AppStudio.Framework.MVC" Version="1.0.47" />
-
-		
-	</ItemGroup>
+	<!-- The generated camera UI is retained as migration reference only. -->
+	<PropertyGroup>
+		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+	</PropertyGroup>
 
 
 </Project>

@@ -9,11 +9,12 @@
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
+  <!-- UI, reporting and persistence stay disabled until native migration. -->
+  <PropertyGroup>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AppStudio.Framework.MVC" Version="1.0.144" />
-    <PackageReference Include="ClosedXML" Version="0.105.0" />
-    <PackageReference Include="EPPlus" Version="8.0.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <Compile Include="Program.cs" />
   </ItemGroup>
 
 </Project>
